@@ -12,10 +12,10 @@ public class Livro {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long codLivro;
+    private Long id;
 
     @Column(nullable = false)
-    private String nomeLivro;
+    private String nome;
 
     @Column(nullable = false)
     private String autor;

@@ -36,9 +36,9 @@ public class EditoraService {
     }
 
     public EditoraDTO update(EditoraDTO editoraDTO) {
-        Editora editoraToCreate = editoraMapper.toModel(editoraDTO);
-        Editora editoraCreated = editoraRepository.save(editoraToCreate);
+        Editora editoraToUpdate = editoraMapper.toModel(editoraDTO);
+        Editora editoraUpdated = editoraRepository.save(editoraToUpdate);
 
-        return  editoraMapper.toDTO(editoraCreated);
+        return  editoraMapper.toDTO(editoraUpdated);
     }
 }
