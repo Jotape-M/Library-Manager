@@ -1,7 +1,7 @@
 package com.joaopedro.librarymanager.controller;
 
-import com.joaopedro.librarymanager.model.Editora;
-import com.joaopedro.librarymanager.repository.EditoraRepository;
+import com.joaopedro.librarymanager.dto.EditoraDTO;
+import com.joaopedro.librarymanager.service.EditoraService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,30 +15,30 @@ import java.util.List;
 public class EditoraController {
 
     @Autowired
-    private EditoraRepository editoraRepository;
+    private EditoraService editoraService;
 
     @GetMapping
     @ApiOperation(value = "Retorna todas as editoras")
-    public List<Editora> findAll() {
-        return editoraRepository.findAll();
+    public List<EditoraDTO> findAll() {
+        return editoraService.findAll();
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     @ApiOperation(value = "Cria uma editora")
-    public Editora create(@RequestBody @Valid Editora editora){
-        return editoraRepository.save(editora);
+    public EditoraDTO create(@RequestBody @Valid EditoraDTO editoraDTO){
+        return editoraService.create(editoraDTO);
     }
 
-    @DeleteMapping
+    @DeleteMapping("/{id}")
     @ApiOperation(value = "Deleta uma editora")
-    public void delete(@RequestBody Editora editora) {
-        editoraRepository.delete(editora);
+    public void deleteById(@PathVariable Long id) {
+        editoraService.deleteById(id);
     }
 
     @PutMapping
     @ApiOperation(value = "Altera uma editora")
-    public Editora update(@RequestBody Editora editora) {
-        return editoraRepository.save(editora);
+    public EditoraDTO update(@RequestBody EditoraDTO editoraDTO) {
+        return editoraService.update(editoraDTO);
     }
 }

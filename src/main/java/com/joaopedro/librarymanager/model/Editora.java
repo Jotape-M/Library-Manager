@@ -20,6 +20,6 @@ public class Editora {
     @Column(nullable = false)
     private String cidade;
 
-//    @OneToMany(mappedBy = "editora", fetch = FetchType.LAZY)
-//    private List<Livro> livros;
+    @OneToMany(mappedBy = "editora", fetch = FetchType.LAZY)
+    private List<Livro> livros;
 }
