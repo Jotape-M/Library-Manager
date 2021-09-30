@@ -1,7 +1,9 @@
 package com.joaopedro.librarymanager.service;
 
-import com.joaopedro.librarymanager.dto.LivroDTO;
+import com.joaopedro.librarymanager.dto.request.LivroRequestDTO;
+import com.joaopedro.librarymanager.dto.response.LivroResponseDTO;
 import com.joaopedro.librarymanager.mapper.LivroMapper;
+import com.joaopedro.librarymanager.model.Editora;
 import com.joaopedro.librarymanager.model.Livro;
 import com.joaopedro.librarymanager.repository.LivroRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,24 +17,37 @@ public class LivroService {
 
     private final LivroMapper livroMapper = LivroMapper.INSTANCE;
 
-    @Autowired
     private LivroRepository livroRepository;
 
-    public List<LivroDTO> findAll() {
+    private EditoraService editoraService;
+
+    @Autowired
+    public LivroService(LivroRepository livroRepository, EditoraService editoraService) {
+        this.livroRepository = livroRepository;
+        this.editoraService = editoraService;
+    }
+
+    public List<LivroResponseDTO> findAll() {
          return livroRepository.findAll().stream()
                 .map(livroMapper::toDTO)
                 .collect(Collectors.toList());
     }
 
-    public LivroDTO create(LivroDTO livroDTO) {
-        Livro livroToCreate = livroMapper.toModel(livroDTO);
+    public LivroResponseDTO create(LivroRequestDTO livroRequestDTO) {
+        Editora foundEditora = editoraService.verifyAndGetIfExists(livroRequestDTO.getEditoraId());
+
+        Livro livroToCreate = livroMapper.toModel(livroRequestDTO);
+        livroToCreate.setEditora(foundEditora);
         Livro livroCreated = livroRepository.save(livroToCreate);
 
         return livroMapper.toDTO(livroCreated);
     }
 
-    public LivroDTO update(LivroDTO livroDTO) {
-        Livro livroToUpdate = livroMapper.toModel(livroDTO);
+    public LivroResponseDTO update(LivroRequestDTO livroRequestDTO) {
+        Editora foundEditora = editoraService.verifyAndGetIfExists(livroRequestDTO.getEditoraId());
+
+        Livro livroToUpdate = livroMapper.toModel(livroRequestDTO);
+        livroToUpdate.setEditora(foundEditora);
         Livro livroUpdated = livroRepository.save(livroToUpdate);
 
         return livroMapper.toDTO(livroUpdated);

@@ -1,6 +1,7 @@
 package com.joaopedro.librarymanager.model;
 
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -21,6 +22,7 @@ public class Livro {
     private String autor;
 
     @Column(nullable = false)
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE, pattern = "dd-MM-yyyy")
     private LocalDate lancamento;
 
     @Column(nullable = false)

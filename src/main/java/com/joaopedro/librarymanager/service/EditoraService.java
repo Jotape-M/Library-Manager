@@ -1,6 +1,7 @@
 package com.joaopedro.librarymanager.service;
 
 import com.joaopedro.librarymanager.dto.EditoraDTO;
+import com.joaopedro.librarymanager.exception.EditoraNotFoundException;
 import com.joaopedro.librarymanager.mapper.EditoraMapper;
 import com.joaopedro.librarymanager.model.Editora;
 import com.joaopedro.librarymanager.repository.EditoraRepository;
@@ -40,5 +41,10 @@ public class EditoraService {
         Editora editoraUpdated = editoraRepository.save(editoraToUpdate);
 
         return  editoraMapper.toDTO(editoraUpdated);
+    }
+
+    public Editora verifyAndGetIfExists(Long id){
+        return editoraRepository.findById(id)
+                .orElseThrow(() -> new EditoraNotFoundException(id));
     }
 }
