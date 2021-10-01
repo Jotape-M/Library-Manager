@@ -38,7 +38,7 @@ public class UsuarioController {
 
     @PutMapping
     @ApiOperation(value = "Altera um usuario")
-    public UsuarioDTO update(@RequestBody UsuarioDTO usuarioDTO) {
+    public UsuarioDTO update(@RequestBody @Valid UsuarioDTO usuarioDTO) {
         return usuarioService.update(usuarioDTO);
     }
 }

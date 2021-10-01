@@ -1,6 +1,7 @@
 package com.joaopedro.librarymanager.service;
 
 import com.joaopedro.librarymanager.dto.UsuarioDTO;
+import com.joaopedro.librarymanager.exception.UsuarioNotFoundException;
 import com.joaopedro.librarymanager.mapper.UsuarioMapper;
 import com.joaopedro.librarymanager.model.Usuario;
 import com.joaopedro.librarymanager.repository.UsuarioRepository;
@@ -41,5 +42,10 @@ public class UsuarioService {
         Usuario usuarioUpdated = usuarioRepository.save(usuarioToUpdate);
 
         return usuarioMapper.toDTO(usuarioUpdated);
+    }
+
+    public Usuario verifyAndGetIfExists(Long id) {
+        return usuarioRepository.findById(id)
+                .orElseThrow(() -> new UsuarioNotFoundException(id));
     }
 }

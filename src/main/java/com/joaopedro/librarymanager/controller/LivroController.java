@@ -33,7 +33,7 @@ public class LivroController {
 
     @PutMapping
     @ApiOperation(value = "Altera um livro")
-    public LivroResponseDTO update(@RequestBody LivroRequestDTO livroRequestDTO) {
+    public LivroResponseDTO update(@RequestBody @Valid LivroRequestDTO livroRequestDTO) {
         return livroService.update(livroRequestDTO);
     }
 

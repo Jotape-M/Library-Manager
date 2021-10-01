@@ -38,7 +38,7 @@ public class EditoraController {
 
     @PutMapping
     @ApiOperation(value = "Altera uma editora")
-    public EditoraDTO update(@RequestBody EditoraDTO editoraDTO) {
+    public EditoraDTO update(@RequestBody @Valid EditoraDTO editoraDTO) {
         return editoraService.update(editoraDTO);
     }
 }

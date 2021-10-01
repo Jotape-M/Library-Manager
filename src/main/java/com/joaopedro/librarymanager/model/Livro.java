@@ -5,6 +5,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.List;
 
 @Data
 @Entity
@@ -31,4 +32,7 @@ public class Livro {
     @ManyToOne
     @JoinColumn(name = "editora")
     private Editora editora;
+
+    @OneToMany(mappedBy = "livro", fetch = FetchType.LAZY)
+    private List<Aluguel> aluguelList;
 }

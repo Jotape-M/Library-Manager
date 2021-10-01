@@ -3,6 +3,7 @@ package com.joaopedro.librarymanager.model;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Data
 @Entity
@@ -24,4 +25,7 @@ public class Usuario {
 
     @Column(nullable = false)
     private String email;
+
+    @OneToMany(mappedBy = "usuario", fetch = FetchType.LAZY)
+    private List<Aluguel> aluguelList;
 }

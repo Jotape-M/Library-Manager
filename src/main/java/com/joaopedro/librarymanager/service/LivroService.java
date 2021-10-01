@@ -2,6 +2,7 @@ package com.joaopedro.librarymanager.service;
 
 import com.joaopedro.librarymanager.dto.request.LivroRequestDTO;
 import com.joaopedro.librarymanager.dto.response.LivroResponseDTO;
+import com.joaopedro.librarymanager.exception.LivroNotFoundException;
 import com.joaopedro.librarymanager.mapper.LivroMapper;
 import com.joaopedro.librarymanager.model.Editora;
 import com.joaopedro.librarymanager.model.Livro;
@@ -55,5 +56,10 @@ public class LivroService {
 
     public void deleteById(Long id) {
         livroRepository.deleteById(id);
+    }
+
+    public Livro verifyAndGetIfExists(Long id) {
+        return livroRepository.findById(id)
+                .orElseThrow(() -> new LivroNotFoundException(id));
     }
 }
