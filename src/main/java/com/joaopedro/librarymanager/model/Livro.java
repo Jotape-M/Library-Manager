@@ -16,10 +16,10 @@ public class Livro {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 40)
     private String nome;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 40)
     private String autor;
 
     @Column(nullable = false)
@@ -30,7 +30,7 @@ public class Livro {
     private int quantidade;
 
     @ManyToOne
-    @JoinColumn(name = "editora")
+    @JoinColumn(name = "editora", nullable = false)
     private Editora editora;
 
     @OneToMany(mappedBy = "livro", fetch = FetchType.LAZY)

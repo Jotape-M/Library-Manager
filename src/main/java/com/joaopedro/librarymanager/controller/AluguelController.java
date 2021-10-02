@@ -5,6 +5,7 @@ import com.joaopedro.librarymanager.dto.response.AluguelResponseDTO;
 import com.joaopedro.librarymanager.service.AluguelService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -24,6 +25,7 @@ public class AluguelController {
     }
 
     @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
     @ApiOperation(value = "Criar Aluguel")
     public AluguelResponseDTO create(@RequestBody @Valid AluguelRequestDTO aluguelRequestDTO) {
         return aluguelService.create(aluguelRequestDTO);
