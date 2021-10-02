@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 @Data
 @AllArgsConstructor
@@ -14,9 +15,11 @@ public class EditoraDTO {
     private Long id;
 
     @NotBlank
+    @Size(min = 3, max = 40)
     private String nome;
 
     @NotBlank
+    @Size(min = 3, max = 40)
     private String cidade;
 
 }

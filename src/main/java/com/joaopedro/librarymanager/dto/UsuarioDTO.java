@@ -14,15 +14,19 @@ public class UsuarioDTO {
     private Long id;
 
     @NotBlank
+    @Size(min = 3, max = 40)
     private String nome;
 
     @NotBlank
+    @Size(min = 3, max = 50)
     private String endereco;
 
     @NotBlank
+    @Size(min = 3, max = 40)
     private String cidade;
 
     @NotBlank
     @Email
+    @Size(min = 3, max = 50)
     private String email;
 }
