@@ -8,6 +8,9 @@ import com.joaopedro.librarymanager.model.Editora;
 import com.joaopedro.librarymanager.model.Livro;
 import com.joaopedro.librarymanager.repository.LivroRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -28,10 +31,12 @@ public class LivroService {
         this.editoraService = editoraService;
     }
 
-    public List<LivroResponseDTO> findAll() {
-         return livroRepository.findAll().stream()
+    public Page<LivroResponseDTO> findAll(Pageable pageable) {
+         List<LivroResponseDTO> livroResponseDTOList = livroRepository.findAll(pageable).stream()
                 .map(livroMapper::toDTO)
                 .collect(Collectors.toList());
+
+         return new PageImpl<>(livroResponseDTOList);
     }
 
     public LivroResponseDTO create(LivroRequestDTO livroRequestDTO) {

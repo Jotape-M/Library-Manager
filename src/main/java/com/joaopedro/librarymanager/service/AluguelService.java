@@ -1,5 +1,6 @@
 package com.joaopedro.librarymanager.service;
 
+import com.joaopedro.librarymanager.dto.EditoraDTO;
 import com.joaopedro.librarymanager.dto.request.AluguelRequestDTO;
 import com.joaopedro.librarymanager.dto.response.AluguelResponseDTO;
 import com.joaopedro.librarymanager.mapper.AluguelMapper;
@@ -8,6 +9,9 @@ import com.joaopedro.librarymanager.model.Livro;
 import com.joaopedro.librarymanager.model.Usuario;
 import com.joaopedro.librarymanager.repository.AluguelRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -31,11 +35,13 @@ public class AluguelService {
         this.usuarioService = usuarioService;
     }
 
-    public List<AluguelResponseDTO> findAll() {
-        return aluguelRepository.findAll()
+    public Page<AluguelResponseDTO> findAll(Pageable pageable) {
+        List<AluguelResponseDTO> aluguelResponseDTOList = aluguelRepository.findAll(pageable)
                 .stream()
                 .map(aluguelMapper::toDTO)
                 .collect(Collectors.toList());
+
+        return new PageImpl<>(aluguelResponseDTOList);
     }
 
     public AluguelResponseDTO create(AluguelRequestDTO aluguelRequestDTO) {

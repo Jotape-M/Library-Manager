@@ -5,6 +5,8 @@ import com.joaopedro.librarymanager.dto.response.LivroResponseDTO;
 import com.joaopedro.librarymanager.service.LivroService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,8 +22,8 @@ public class LivroController {
 
     @GetMapping
     @ApiOperation(value = "Retorna todos os livros")
-    public List<LivroResponseDTO> findAll() {
-        return livroService.findAll();
+    public Page<LivroResponseDTO> findAll(Pageable pageable) {
+        return livroService.findAll(pageable);
     }
 
     @PostMapping
@@ -38,6 +40,7 @@ public class LivroController {
     }
 
     @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     @ApiOperation(value = "Deleta um livro")
     public void delete(@PathVariable Long id) {
         livroService.deleteById(id);

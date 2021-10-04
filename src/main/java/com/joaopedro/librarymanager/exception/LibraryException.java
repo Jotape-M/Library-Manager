@@ -40,9 +40,9 @@ public class LibraryException extends ResponseEntityExceptionHandler {
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException exception, HttpHeaders headers, HttpStatus status, WebRequest request) {
         List<String> errors = new ArrayList<>();
         exception.getBindingResult().getFieldErrors()
-                .forEach(fieldError -> { errors.add("Field:" + fieldError.getField().toUpperCase() + " " + fieldError.getDefaultMessage()); });
+                .forEach(fieldError -> { errors.add("Field:" + fieldError.getField().toUpperCase() + " - " + fieldError.getDefaultMessage()); });
         exception.getBindingResult().getGlobalErrors()
-                .forEach(globalError -> { errors.add("Object: " + globalError.getObjectName() + " " + globalError.getDefaultMessage()); });
+                .forEach(globalError -> { errors.add("Object: " + globalError.getObjectName() + " - " + globalError.getDefaultMessage()); });
 
         return buildResponseEntity(HttpStatus.BAD_REQUEST, "", errors);
     }

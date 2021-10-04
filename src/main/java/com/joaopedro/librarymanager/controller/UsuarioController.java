@@ -4,6 +4,8 @@ import com.joaopedro.librarymanager.dto.UsuarioDTO;
 import com.joaopedro.librarymanager.service.UsuarioService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,8 +21,8 @@ public class UsuarioController {
 
     @GetMapping
     @ApiOperation(value = "Rertorna uma lista de usuarios")
-    public List<UsuarioDTO> findAll() {
-        return usuarioService.findAll();
+    public Page<UsuarioDTO> findAll(Pageable pageable) {
+        return usuarioService.findAll(pageable);
     }
 
     @PostMapping
@@ -31,6 +33,7 @@ public class UsuarioController {
     }
 
     @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     @ApiOperation(value = "Deleta um usuario")
     public void delete(@PathVariable Long id) {
         usuarioService.delete(id);

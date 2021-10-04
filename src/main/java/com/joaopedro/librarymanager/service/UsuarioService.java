@@ -6,6 +6,9 @@ import com.joaopedro.librarymanager.mapper.UsuarioMapper;
 import com.joaopedro.librarymanager.model.Usuario;
 import com.joaopedro.librarymanager.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,11 +22,13 @@ public class UsuarioService {
     @Autowired
     private UsuarioRepository usuarioRepository;
 
-    public List<UsuarioDTO> findAll() {
-        return usuarioRepository.findAll()
+    public Page<UsuarioDTO> findAll(Pageable pageable) {
+        List<UsuarioDTO> usuarioDTOList = usuarioRepository.findAll()
                 .stream()
                 .map(usuarioMapper::toDTO)
                 .collect(Collectors.toList());
+
+        return new PageImpl<>(usuarioDTOList);
     }
 
     public UsuarioDTO create(UsuarioDTO usuarioDTO) {

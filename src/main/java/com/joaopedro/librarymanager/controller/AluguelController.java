@@ -5,6 +5,8 @@ import com.joaopedro.librarymanager.dto.response.AluguelResponseDTO;
 import com.joaopedro.librarymanager.service.AluguelService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,8 +22,8 @@ public class AluguelController {
 
     @GetMapping
     @ApiOperation(value = "Retorna todos os alugueis")
-    public List<AluguelResponseDTO> findAll() {
-        return aluguelService.findAll();
+    public Page<AluguelResponseDTO> findAll(Pageable pageable) {
+        return aluguelService.findAll(pageable);
     }
 
     @PostMapping
@@ -38,6 +40,7 @@ public class AluguelController {
     }
 
     @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     @ApiOperation(value = "Deleta um aluguel")
     public void delete(@PathVariable Long id) {
         aluguelService.deleteById(id);
