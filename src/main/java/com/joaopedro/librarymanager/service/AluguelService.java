@@ -1,6 +1,5 @@
 package com.joaopedro.librarymanager.service;
 
-import com.joaopedro.librarymanager.dto.EditoraDTO;
 import com.joaopedro.librarymanager.dto.request.AluguelRequestDTO;
 import com.joaopedro.librarymanager.dto.response.AluguelResponseDTO;
 import com.joaopedro.librarymanager.mapper.AluguelMapper;
@@ -10,38 +9,30 @@ import com.joaopedro.librarymanager.model.Usuario;
 import com.joaopedro.librarymanager.repository.AluguelRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class AluguelService {
 
-    private final AluguelMapper aluguelMapper = AluguelMapper.INSTANCE;
+    private final AluguelMapper aluguelMapper;
 
-    private AluguelRepository aluguelRepository;
+    private final AluguelRepository aluguelRepository;
 
-    private LivroService livroService;
+    private final LivroService livroService;
 
-    private  UsuarioService usuarioService;
+    private final UsuarioService usuarioService;
 
     @Autowired
-    public AluguelService(AluguelRepository aluguelRepository, LivroService livroService, UsuarioService usuarioService) {
+    public AluguelService(AluguelMapper aluguelMapper, AluguelRepository aluguelRepository, LivroService livroService, UsuarioService usuarioService) {
+        this.aluguelMapper = aluguelMapper;
         this.aluguelRepository = aluguelRepository;
         this.livroService = livroService;
         this.usuarioService = usuarioService;
     }
 
     public Page<AluguelResponseDTO> findAll(Pageable pageable) {
-        List<AluguelResponseDTO> aluguelResponseDTOList = aluguelRepository.findAll(pageable)
-                .stream()
-                .map(aluguelMapper::toDTO)
-                .collect(Collectors.toList());
-
-        return new PageImpl<>(aluguelResponseDTOList);
+        return aluguelRepository.findAll(pageable).map(aluguelMapper::toDTO);
     }
 
     public AluguelResponseDTO create(AluguelRequestDTO aluguelRequestDTO) {
