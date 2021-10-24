@@ -7,22 +7,21 @@ import com.joaopedro.librarymanager.model.Editora;
 import com.joaopedro.librarymanager.repository.EditoraRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class EditoraService {
 
-    private final EditoraMapper editoraMapper = EditoraMapper.INSTANCE;
+    private final EditoraRepository editoraRepository;
+
+    private final EditoraMapper editoraMapper;
 
     @Autowired
-    private EditoraRepository editoraRepository;
+    public EditoraService(EditoraRepository editoraRepository, EditoraMapper editoraMapper) {
+        this.editoraRepository = editoraRepository;
+        this.editoraMapper = editoraMapper;
+    }
 
     public EditoraDTO create(EditoraDTO editoraDTO) {
         Editora editoraToCreate = editoraMapper.toModel(editoraDTO);
@@ -32,8 +31,7 @@ public class EditoraService {
     }
 
     public Page<EditoraDTO> findAll(Pageable pageable) {
-        Page<EditoraDTO> editoraDTOPage = editoraRepository.findAll(pageable).map(editoraMapper::toDTO);
-        return editoraDTOPage;
+        return editoraRepository.findAll(pageable).map(editoraMapper::toDTO);
     }
 
     public void deleteById(Long id) {
@@ -44,7 +42,7 @@ public class EditoraService {
         Editora editoraToUpdate = editoraMapper.toModel(editoraDTO);
         Editora editoraUpdated = editoraRepository.save(editoraToUpdate);
 
-        return  editoraMapper.toDTO(editoraUpdated);
+        return editoraMapper.toDTO(editoraUpdated);
     }
 
     public Editora verifyAndGetIfExists(Long id){
