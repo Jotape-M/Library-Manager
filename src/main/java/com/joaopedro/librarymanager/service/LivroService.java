@@ -9,34 +9,27 @@ import com.joaopedro.librarymanager.model.Livro;
 import com.joaopedro.librarymanager.repository.LivroRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class LivroService {
 
-    private final LivroMapper livroMapper = LivroMapper.INSTANCE;
+    private final LivroMapper livroMapper;
 
-    private LivroRepository livroRepository;
+    private final LivroRepository livroRepository;
 
-    private EditoraService editoraService;
+    private final EditoraService editoraService;
 
     @Autowired
-    public LivroService(LivroRepository livroRepository, EditoraService editoraService) {
+    public LivroService(LivroMapper livroMapper, LivroRepository livroRepository, EditoraService editoraService) {
+        this.livroMapper = livroMapper;
         this.livroRepository = livroRepository;
         this.editoraService = editoraService;
     }
 
     public Page<LivroResponseDTO> findAll(Pageable pageable) {
-         List<LivroResponseDTO> livroResponseDTOList = livroRepository.findAll(pageable).stream()
-                .map(livroMapper::toDTO)
-                .collect(Collectors.toList());
-
-         return new PageImpl<>(livroResponseDTOList);
+         return livroRepository.findAll(pageable).map(livroMapper::toDTO);
     }
 
     public LivroResponseDTO create(LivroRequestDTO livroRequestDTO) {
