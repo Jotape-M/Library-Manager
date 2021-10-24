@@ -26,6 +26,6 @@ public class Usuario {
     @Column(nullable = false, length = 50)
     private String email;
 
-    @OneToMany(mappedBy = "usuario", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     private List<Aluguel> aluguelList;
 }

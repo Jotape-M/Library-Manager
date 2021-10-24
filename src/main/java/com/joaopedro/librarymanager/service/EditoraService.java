@@ -8,7 +8,9 @@ import com.joaopedro.librarymanager.repository.EditoraRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -30,11 +32,8 @@ public class EditoraService {
     }
 
     public Page<EditoraDTO> findAll(Pageable pageable) {
-        List<EditoraDTO> editoraDTOList = editoraRepository.findAll(pageable).stream()
-                .map(editoraMapper::toDTO)
-                .collect(Collectors.toList());
-
-        return new PageImpl<>(editoraDTOList);
+        Page<EditoraDTO> editoraDTOPage = editoraRepository.findAll(pageable).map(editoraMapper::toDTO);
+        return editoraDTOPage;
     }
 
     public void deleteById(Long id) {

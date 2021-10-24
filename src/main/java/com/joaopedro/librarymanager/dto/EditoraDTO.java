@@ -1,5 +1,6 @@
 package com.joaopedro.librarymanager.dto;
 
+import com.joaopedro.librarymanager.model.Editora;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -21,5 +22,4 @@ public class EditoraDTO {
     @NotBlank
     @Size(min = 3, max = 40)
     private String cidade;
-
 }
