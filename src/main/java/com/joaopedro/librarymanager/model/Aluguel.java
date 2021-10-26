@@ -27,11 +27,11 @@ public class Aluguel {
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE, pattern = "dd-MM-yyyy")
     private LocalDate dataAluguel;
 
-    @Column
+    @Column(nullable = false)
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE, pattern = "dd-MM-yyyy")
     private LocalDate dataPrevisao;
 
-    @Column(nullable = false)
+    @Column
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE, pattern = "dd-MM-yyyy")
     private LocalDate dataDevolucao;
 }
