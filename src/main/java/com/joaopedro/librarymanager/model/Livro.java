@@ -33,6 +33,6 @@ public class Livro {
     @JoinColumn(name = "editora", nullable = false)
     private Editora editora;
 
-    @OneToMany(mappedBy = "livro", cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "livro", fetch = FetchType.LAZY)
     private List<Aluguel> aluguelList;
 }

@@ -47,7 +47,7 @@ public class LivroService {
 
         Livro livroToUpdate = livroMapper.toModel(livroRequestDTO);
         livroToUpdate.setEditora(foundEditora);
-        Livro livroUpdated = livroRepository.save(livroToUpdate);
+        Livro livroUpdated = livroRepository.save(verifyAndGetIfExists(livroToUpdate.getId()));
 
         return livroMapper.toDTO(livroUpdated);
     }

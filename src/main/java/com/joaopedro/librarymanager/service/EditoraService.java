@@ -40,13 +40,12 @@ public class EditoraService {
 
     public EditoraDTO update(EditoraDTO editoraDTO) {
         Editora editoraToUpdate = editoraMapper.toModel(editoraDTO);
-        Editora editoraUpdated = editoraRepository.save(editoraToUpdate);
+        Editora editoraUpdated = editoraRepository.save(verifyAndGetIfExists(editoraToUpdate.getId()));
 
         return editoraMapper.toDTO(editoraUpdated);
     }
 
     public Editora verifyAndGetIfExists(Long id){
-        return editoraRepository.findById(id)
-                .orElseThrow(() -> new EditoraNotFoundException(id));
+        return editoraRepository.findById(id).orElseThrow(() -> new EditoraNotFoundException(id));
     }
 }

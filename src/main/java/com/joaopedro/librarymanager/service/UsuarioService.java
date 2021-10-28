@@ -40,7 +40,7 @@ public class UsuarioService {
 
     public UsuarioDTO update(UsuarioDTO usuarioDTO) {
         Usuario usuarioToUpdate = usuarioMapper.toModel(usuarioDTO);
-        Usuario usuarioUpdated = usuarioRepository.save(usuarioToUpdate);
+        Usuario usuarioUpdated = usuarioRepository.save(verifyAndGetIfExists(usuarioToUpdate.getId()));
 
         return usuarioMapper.toDTO(usuarioUpdated);
     }

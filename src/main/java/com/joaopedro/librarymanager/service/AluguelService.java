@@ -2,6 +2,7 @@ package com.joaopedro.librarymanager.service;
 
 import com.joaopedro.librarymanager.dto.request.AluguelRequestDTO;
 import com.joaopedro.librarymanager.dto.response.AluguelResponseDTO;
+import com.joaopedro.librarymanager.exception.AluguelNotFoundException;
 import com.joaopedro.librarymanager.mapper.AluguelMapper;
 import com.joaopedro.librarymanager.model.Aluguel;
 import com.joaopedro.librarymanager.model.Livro;
@@ -54,12 +55,16 @@ public class AluguelService {
         Aluguel aluguelToUpdate = aluguelMapper.toModel(aluguelRequestDTO);
         aluguelToUpdate.setLivro(foundLivro);
         aluguelToUpdate.setUsuario(foundUsuario);
-        Aluguel aluguelUpdated = aluguelRepository.save(aluguelToUpdate);
+        Aluguel aluguelUpdated = aluguelRepository.save(verifyAndGetIfExists(aluguelToUpdate.getId()));
 
         return aluguelMapper.toDTO(aluguelUpdated);
     }
 
     public void deleteById(Long id) {
         aluguelRepository.deleteById(id);
+    }
+
+    public Aluguel verifyAndGetIfExists(Long id) {
+        return aluguelRepository.findById(id).orElseThrow(() -> new AluguelNotFoundException(id));
     }
 }
