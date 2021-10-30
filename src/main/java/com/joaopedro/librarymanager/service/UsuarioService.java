@@ -1,9 +1,12 @@
 package com.joaopedro.librarymanager.service;
 
 import com.joaopedro.librarymanager.dto.UsuarioDTO;
-import com.joaopedro.librarymanager.exception.UsuarioNotFoundException;
+import com.joaopedro.librarymanager.exception.usuario.UsuarioCanNotBeDeletedException;
+import com.joaopedro.librarymanager.exception.usuario.UsuarioNotFoundException;
 import com.joaopedro.librarymanager.mapper.UsuarioMapper;
+import com.joaopedro.librarymanager.model.Aluguel;
 import com.joaopedro.librarymanager.model.Usuario;
+import com.joaopedro.librarymanager.repository.AluguelRepository;
 import com.joaopedro.librarymanager.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -17,10 +20,13 @@ public class UsuarioService {
 
     private final UsuarioRepository usuarioRepository;
 
+    private final AluguelRepository aluguelRepository;
+
     @Autowired
-    public UsuarioService(UsuarioMapper usuarioMapper, UsuarioRepository usuarioRepository) {
+    public UsuarioService(UsuarioMapper usuarioMapper, UsuarioRepository usuarioRepository, AluguelRepository aluguelRepository) {
         this.usuarioMapper = usuarioMapper;
         this.usuarioRepository = usuarioRepository;
+        this.aluguelRepository = aluguelRepository;
     }
 
     public Page<UsuarioDTO> findAll(Pageable pageable) {
@@ -35,6 +41,11 @@ public class UsuarioService {
     }
 
     public void delete(Long id) {
+        for(Aluguel aluguel : aluguelRepository.findAll()) {
+            if(id.equals(aluguel.getUsuario().getId())) {
+                throw new UsuarioCanNotBeDeletedException(id, aluguel.getId());
+            }
+        }
         usuarioRepository.deleteById(id);
     }
 

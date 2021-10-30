@@ -1,5 +1,6 @@
 package com.joaopedro.librarymanager.exception;
 
+import com.joaopedro.librarymanager.exception.aluguel.AluguelDataNotValidException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +19,7 @@ import java.util.Collections;
 import java.util.List;
 
 @ControllerAdvice
-public class LibraryException extends ResponseEntityExceptionHandler {
+public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(EntityExistsException.class)
     private ResponseEntity<Object> handlerEntityExistsException(EntityExistsException exception) {
@@ -32,6 +33,22 @@ public class LibraryException extends ResponseEntityExceptionHandler {
     private ResponseEntity<Object> handlerEntityNotFoundException(EntityNotFoundException exception) {
         return buildResponseEntity(
                 HttpStatus.NOT_FOUND,
+                exception.getMessage(),
+                Collections.singletonList(exception.getMessage()));
+    }
+
+    @ExceptionHandler(EntityCanNotBeDeletedException.class)
+    private ResponseEntity<Object> handlerEntityCanNotBeDeleted(EntityCanNotBeDeletedException exception) {
+        return buildResponseEntity(
+                HttpStatus.BAD_REQUEST,
+                exception.getMessage(),
+                Collections.singletonList(exception.getMessage()));
+    }
+
+    @ExceptionHandler(AluguelDataNotValidException.class)
+    public ResponseEntity<Object> handleAluguelDataNotValid(AluguelDataNotValidException exception) {
+        return buildResponseEntity(
+                HttpStatus.BAD_REQUEST,
                 exception.getMessage(),
                 Collections.singletonList(exception.getMessage()));
     }

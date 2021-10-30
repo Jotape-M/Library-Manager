@@ -1,4 +1,4 @@
-package com.joaopedro.librarymanager.exception;
+package com.joaopedro.librarymanager.exception.editora;
 
 import javax.persistence.EntityNotFoundException;
 

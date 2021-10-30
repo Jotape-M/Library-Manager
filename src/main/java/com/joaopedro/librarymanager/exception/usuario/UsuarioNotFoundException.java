@@ -1,4 +1,4 @@
-package com.joaopedro.librarymanager.exception;
+package com.joaopedro.librarymanager.exception.usuario;
 
 import javax.persistence.EntityNotFoundException;
 

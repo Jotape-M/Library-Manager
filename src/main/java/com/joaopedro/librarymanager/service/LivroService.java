@@ -2,10 +2,13 @@ package com.joaopedro.librarymanager.service;
 
 import com.joaopedro.librarymanager.dto.request.LivroRequestDTO;
 import com.joaopedro.librarymanager.dto.response.LivroResponseDTO;
-import com.joaopedro.librarymanager.exception.LivroNotFoundException;
+import com.joaopedro.librarymanager.exception.livro.LivroCanNotBeDeletedException;
+import com.joaopedro.librarymanager.exception.livro.LivroNotFoundException;
 import com.joaopedro.librarymanager.mapper.LivroMapper;
+import com.joaopedro.librarymanager.model.Aluguel;
 import com.joaopedro.librarymanager.model.Editora;
 import com.joaopedro.librarymanager.model.Livro;
+import com.joaopedro.librarymanager.repository.AluguelRepository;
 import com.joaopedro.librarymanager.repository.LivroRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -21,11 +24,14 @@ public class LivroService {
 
     private final EditoraService editoraService;
 
+    private final AluguelRepository aluguelRepository;
+
     @Autowired
-    public LivroService(LivroMapper livroMapper, LivroRepository livroRepository, EditoraService editoraService) {
+    public LivroService(LivroMapper livroMapper, LivroRepository livroRepository, EditoraService editoraService, AluguelRepository aluguelRepository) {
         this.livroMapper = livroMapper;
         this.livroRepository = livroRepository;
         this.editoraService = editoraService;
+        this.aluguelRepository = aluguelRepository;
     }
 
     public Page<LivroResponseDTO> findAll(Pageable pageable) {
@@ -53,6 +59,11 @@ public class LivroService {
     }
 
     public void deleteById(Long id) {
+        for (Aluguel aluguel : aluguelRepository.findAll()) {
+            if(id.equals(aluguel.getLivro().getId())) {
+                throw new LivroCanNotBeDeletedException(id, aluguel.getId());
+            }
+        }
         livroRepository.deleteById(id);
     }
 

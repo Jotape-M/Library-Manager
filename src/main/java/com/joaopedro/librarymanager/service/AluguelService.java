@@ -2,7 +2,8 @@ package com.joaopedro.librarymanager.service;
 
 import com.joaopedro.librarymanager.dto.request.AluguelRequestDTO;
 import com.joaopedro.librarymanager.dto.response.AluguelResponseDTO;
-import com.joaopedro.librarymanager.exception.AluguelNotFoundException;
+import com.joaopedro.librarymanager.exception.aluguel.AluguelDataNotValidException;
+import com.joaopedro.librarymanager.exception.aluguel.AluguelNotFoundException;
 import com.joaopedro.librarymanager.mapper.AluguelMapper;
 import com.joaopedro.librarymanager.model.Aluguel;
 import com.joaopedro.librarymanager.model.Livro;
@@ -25,7 +26,8 @@ public class AluguelService {
     private final UsuarioService usuarioService;
 
     @Autowired
-    public AluguelService(AluguelMapper aluguelMapper, AluguelRepository aluguelRepository, LivroService livroService, UsuarioService usuarioService) {
+    public AluguelService(AluguelMapper aluguelMapper, AluguelRepository aluguelRepository,
+                          LivroService livroService, UsuarioService usuarioService) {
         this.aluguelMapper = aluguelMapper;
         this.aluguelRepository = aluguelRepository;
         this.livroService = livroService;
@@ -39,6 +41,14 @@ public class AluguelService {
     public AluguelResponseDTO create(AluguelRequestDTO aluguelRequestDTO) {
         Livro foundLivro = livroService.verifyAndGetIfExists(aluguelRequestDTO.getLivroId());
         Usuario foundUsuario = usuarioService.verifyAndGetIfExists(aluguelRequestDTO.getUsuarioId());
+
+        if(aluguelRequestDTO.getDataAluguel().isAfter(aluguelRequestDTO.getDataPrevisao())) {
+            throw new AluguelDataNotValidException("Data de previsão não pode ser menor que de aluguel");
+        }
+
+        if(aluguelRequestDTO.getDataAluguel().isAfter(aluguelRequestDTO.getDataDevolucao())) {
+            throw new AluguelDataNotValidException("Data de devolução não pode ser menor que de aluguel");
+        }
 
         Aluguel aluguelToCreate = aluguelMapper.toModel(aluguelRequestDTO);
         aluguelToCreate.setLivro(foundLivro);

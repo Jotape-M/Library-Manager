@@ -1,10 +1,13 @@
 package com.joaopedro.librarymanager.service;
 
 import com.joaopedro.librarymanager.dto.EditoraDTO;
-import com.joaopedro.librarymanager.exception.EditoraNotFoundException;
+import com.joaopedro.librarymanager.exception.editora.EditoraCanNotBeDeletedException;
+import com.joaopedro.librarymanager.exception.editora.EditoraNotFoundException;
 import com.joaopedro.librarymanager.mapper.EditoraMapper;
 import com.joaopedro.librarymanager.model.Editora;
+import com.joaopedro.librarymanager.model.Livro;
 import com.joaopedro.librarymanager.repository.EditoraRepository;
+import com.joaopedro.librarymanager.repository.LivroRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -15,11 +18,14 @@ public class EditoraService {
 
     private final EditoraRepository editoraRepository;
 
+    private final LivroRepository livroRepository;
+
     private final EditoraMapper editoraMapper;
 
     @Autowired
-    public EditoraService(EditoraRepository editoraRepository, EditoraMapper editoraMapper) {
+    public EditoraService(EditoraRepository editoraRepository, LivroRepository livroRepository, EditoraMapper editoraMapper) {
         this.editoraRepository = editoraRepository;
+        this.livroRepository = livroRepository;
         this.editoraMapper = editoraMapper;
     }
 
@@ -35,6 +41,11 @@ public class EditoraService {
     }
 
     public void deleteById(Long id) {
+        for(Livro livro : livroRepository.findAll()) {
+            if(id.equals(livro.getEditora().getId())) {
+                throw new EditoraCanNotBeDeletedException(id, livro.getId());
+            }
+        }
         editoraRepository.deleteById(id);
     }
 
