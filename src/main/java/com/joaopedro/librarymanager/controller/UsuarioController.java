@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/usuarios")
@@ -21,11 +22,17 @@ public class UsuarioController {
     private UsuarioServiceImpl usuarioService;
 
     @GetMapping
-    @ApiOperation(value = "Rertorna uma lista de usuarios")
+    @ApiOperation(value = "Rertorna uma lista paginada de usuarios")
     public ResponseEntity<Page<UsuarioDTO>> findAll(@RequestParam(defaultValue = "0") int page,
                                                     @RequestParam(defaultValue = "10") int size) {
         Pageable pageable = PageRequest.of(page, size);
         return new ResponseEntity<>(usuarioService.findAll(pageable), HttpStatus.OK);
+    }
+
+    @GetMapping("/all")
+    @ApiOperation(value = "Rertorna uma lista de usuarios")
+    public ResponseEntity<List<UsuarioDTO>> findAll() {
+        return new ResponseEntity<>(usuarioService.findAll(), HttpStatus.OK);
     }
 
     @PostMapping

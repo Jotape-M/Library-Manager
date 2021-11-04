@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @RequestMapping(value = "/api/editoras")
@@ -21,11 +22,17 @@ public class EditoraController {
     private EditoraServiceImpl editoraService;
 
     @GetMapping
-    @ApiOperation(value = "Retorna todas as editoras")
+    @ApiOperation(value = "Retorna uma lista paginada de editoras")
     public ResponseEntity<Page<EditoraDTO>> findAll(@RequestParam(defaultValue = "0") int page,
                                                     @RequestParam(defaultValue = "10") int size) {
         Pageable pageable = PageRequest.of(page, size);
         return new ResponseEntity<>(editoraService.findAll(pageable), HttpStatus.OK);
+    }
+
+    @GetMapping("/all")
+    @ApiOperation(value = "Retorna uma lista de editoras")
+    public ResponseEntity<List<EditoraDTO>> findAll() {
+        return new ResponseEntity<>(editoraService.findAll(), HttpStatus.OK);
     }
 
     @PostMapping

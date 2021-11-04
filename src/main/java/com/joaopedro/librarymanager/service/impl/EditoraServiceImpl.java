@@ -14,6 +14,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 public class EditoraServiceImpl implements IEditoraService {
 
@@ -39,6 +42,10 @@ public class EditoraServiceImpl implements IEditoraService {
 
     public Page<EditoraDTO> findAll(Pageable pageable) {
         return editoraRepository.findAll(pageable).map(editoraMapper::toDTO);
+    }
+
+    public List<EditoraDTO> findAll() {
+        return editoraRepository.findAll().stream().map(editoraMapper::toDTO).collect(Collectors.toList());
     }
 
     public void deleteById(Long id) {

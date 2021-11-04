@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/livros")
@@ -22,11 +23,17 @@ public class LivroController {
     private LivroServiceImpl livroService;
 
     @GetMapping
-    @ApiOperation(value = "Retorna todos os livros")
+    @ApiOperation(value = "Retorna uma lista paginada de livros")
     public ResponseEntity<Page<LivroResponseDTO>> findAll(@RequestParam(defaultValue = "0") int page,
                                                           @RequestParam(defaultValue = "10") int size) {
         Pageable pageable = PageRequest.of(page, size);
         return new ResponseEntity<>(livroService.findAll(pageable), HttpStatus.OK);
+    }
+
+    @GetMapping("/all")
+    @ApiOperation(value = "Retorna uma lista de livros")
+    public ResponseEntity<List<LivroResponseDTO>> findAll() {
+        return new ResponseEntity<>(livroService.findAll(), HttpStatus.OK);
     }
 
     @PostMapping

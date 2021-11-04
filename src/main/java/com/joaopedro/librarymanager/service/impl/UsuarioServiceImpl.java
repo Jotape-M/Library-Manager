@@ -14,6 +14,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 public class UsuarioServiceImpl implements IUsuarioService {
 
@@ -32,6 +35,10 @@ public class UsuarioServiceImpl implements IUsuarioService {
 
     public Page<UsuarioDTO> findAll(Pageable pageable) {
         return usuarioRepository.findAll(pageable).map(usuarioMapper::toDTO);
+    }
+
+    public List<UsuarioDTO> findAll() {
+        return usuarioRepository.findAll().stream().map(usuarioMapper::toDTO).collect(Collectors.toList());
     }
 
     public UsuarioDTO create(UsuarioDTO usuarioDTO) {

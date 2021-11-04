@@ -4,11 +4,15 @@ import com.joaopedro.librarymanager.dto.EditoraDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.util.List;
+
 public interface IEditoraService {
 
     EditoraDTO create(EditoraDTO editoraDTO);
 
     Page<EditoraDTO> findAll(Pageable pageable);
+
+    List<EditoraDTO> findAll();
 
     void deleteById(Long id);
 

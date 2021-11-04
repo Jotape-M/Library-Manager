@@ -16,6 +16,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 public class LivroServiceImpl implements ILivroService {
 
@@ -37,6 +40,10 @@ public class LivroServiceImpl implements ILivroService {
 
     public Page<LivroResponseDTO> findAll(Pageable pageable) {
          return livroRepository.findAll(pageable).map(livroMapper::toDTO);
+    }
+
+    public List<LivroResponseDTO> findAll() {
+        return livroRepository.findAll().stream().map(livroMapper::toDTO).collect(Collectors.toList());
     }
 
     public LivroResponseDTO create(LivroRequestDTO livroRequestDTO) {
