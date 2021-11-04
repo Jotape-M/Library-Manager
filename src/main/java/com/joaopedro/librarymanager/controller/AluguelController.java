@@ -2,7 +2,7 @@ package com.joaopedro.librarymanager.controller;
 
 import com.joaopedro.librarymanager.dto.request.AluguelRequestDTO;
 import com.joaopedro.librarymanager.dto.response.AluguelResponseDTO;
-import com.joaopedro.librarymanager.service.AluguelService;
+import com.joaopedro.librarymanager.service.impl.AluguelServiceImpl;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -19,7 +19,7 @@ import javax.validation.Valid;
 public class AluguelController {
 
     @Autowired
-    private AluguelService aluguelService;
+    private AluguelServiceImpl aluguelService;
 
     @GetMapping
     @ApiOperation(value = "Retorna todos os alugueis")

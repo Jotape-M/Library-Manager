@@ -1,4 +1,4 @@
-package com.joaopedro.librarymanager.service;
+package com.joaopedro.librarymanager.service.impl;
 
 import com.joaopedro.librarymanager.dto.EditoraDTO;
 import com.joaopedro.librarymanager.exception.editora.EditoraCanNotBeDeletedException;
@@ -8,13 +8,14 @@ import com.joaopedro.librarymanager.model.Editora;
 import com.joaopedro.librarymanager.model.Livro;
 import com.joaopedro.librarymanager.repository.EditoraRepository;
 import com.joaopedro.librarymanager.repository.LivroRepository;
+import com.joaopedro.librarymanager.service.IEditoraService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
-public class EditoraService {
+public class EditoraServiceImpl implements IEditoraService {
 
     private final EditoraRepository editoraRepository;
 
@@ -23,7 +24,7 @@ public class EditoraService {
     private final EditoraMapper editoraMapper;
 
     @Autowired
-    public EditoraService(EditoraRepository editoraRepository, LivroRepository livroRepository, EditoraMapper editoraMapper) {
+    public EditoraServiceImpl(EditoraRepository editoraRepository, LivroRepository livroRepository, EditoraMapper editoraMapper) {
         this.editoraRepository = editoraRepository;
         this.livroRepository = livroRepository;
         this.editoraMapper = editoraMapper;
@@ -51,7 +52,7 @@ public class EditoraService {
 
     public EditoraDTO update(EditoraDTO editoraDTO) {
         Editora editoraToUpdate = editoraMapper.toModel(editoraDTO);
-        Editora editoraUpdated = editoraRepository.save(verifyAndGetIfExists(editoraToUpdate.getId()));
+        Editora editoraUpdated = editoraRepository.save(editoraToUpdate);
 
         return editoraMapper.toDTO(editoraUpdated);
     }

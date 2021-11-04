@@ -1,7 +1,7 @@
 package com.joaopedro.librarymanager.controller;
 
 import com.joaopedro.librarymanager.dto.EditoraDTO;
-import com.joaopedro.librarymanager.service.EditoraService;
+import com.joaopedro.librarymanager.service.impl.EditoraServiceImpl;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -18,7 +18,7 @@ import javax.validation.Valid;
 public class EditoraController {
 
     @Autowired
-    private EditoraService editoraService;
+    private EditoraServiceImpl editoraService;
 
     @GetMapping
     @ApiOperation(value = "Retorna todas as editoras")

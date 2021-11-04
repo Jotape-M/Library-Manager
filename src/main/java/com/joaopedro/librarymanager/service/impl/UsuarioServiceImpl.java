@@ -1,4 +1,4 @@
-package com.joaopedro.librarymanager.service;
+package com.joaopedro.librarymanager.service.impl;
 
 import com.joaopedro.librarymanager.dto.UsuarioDTO;
 import com.joaopedro.librarymanager.exception.usuario.UsuarioCanNotBeDeletedException;
@@ -8,13 +8,14 @@ import com.joaopedro.librarymanager.model.Aluguel;
 import com.joaopedro.librarymanager.model.Usuario;
 import com.joaopedro.librarymanager.repository.AluguelRepository;
 import com.joaopedro.librarymanager.repository.UsuarioRepository;
+import com.joaopedro.librarymanager.service.IUsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
-public class UsuarioService {
+public class UsuarioServiceImpl implements IUsuarioService {
 
     private final UsuarioMapper usuarioMapper;
 
@@ -23,7 +24,7 @@ public class UsuarioService {
     private final AluguelRepository aluguelRepository;
 
     @Autowired
-    public UsuarioService(UsuarioMapper usuarioMapper, UsuarioRepository usuarioRepository, AluguelRepository aluguelRepository) {
+    public UsuarioServiceImpl(UsuarioMapper usuarioMapper, UsuarioRepository usuarioRepository, AluguelRepository aluguelRepository) {
         this.usuarioMapper = usuarioMapper;
         this.usuarioRepository = usuarioRepository;
         this.aluguelRepository = aluguelRepository;
@@ -51,7 +52,7 @@ public class UsuarioService {
 
     public UsuarioDTO update(UsuarioDTO usuarioDTO) {
         Usuario usuarioToUpdate = usuarioMapper.toModel(usuarioDTO);
-        Usuario usuarioUpdated = usuarioRepository.save(verifyAndGetIfExists(usuarioToUpdate.getId()));
+        Usuario usuarioUpdated = usuarioRepository.save(usuarioToUpdate);
 
         return usuarioMapper.toDTO(usuarioUpdated);
     }

@@ -2,7 +2,7 @@ package com.joaopedro.librarymanager.controller;
 
 import com.joaopedro.librarymanager.dto.request.LivroRequestDTO;
 import com.joaopedro.librarymanager.dto.response.LivroResponseDTO;
-import com.joaopedro.librarymanager.service.LivroService;
+import com.joaopedro.librarymanager.service.impl.LivroServiceImpl;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -19,7 +19,7 @@ import javax.validation.Valid;
 public class LivroController {
 
     @Autowired
-    private LivroService livroService;
+    private LivroServiceImpl livroService;
 
     @GetMapping
     @ApiOperation(value = "Retorna todos os livros")

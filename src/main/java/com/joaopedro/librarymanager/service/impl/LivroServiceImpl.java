@@ -1,4 +1,4 @@
-package com.joaopedro.librarymanager.service;
+package com.joaopedro.librarymanager.service.impl;
 
 import com.joaopedro.librarymanager.dto.request.LivroRequestDTO;
 import com.joaopedro.librarymanager.dto.response.LivroResponseDTO;
@@ -10,24 +10,25 @@ import com.joaopedro.librarymanager.model.Editora;
 import com.joaopedro.librarymanager.model.Livro;
 import com.joaopedro.librarymanager.repository.AluguelRepository;
 import com.joaopedro.librarymanager.repository.LivroRepository;
+import com.joaopedro.librarymanager.service.ILivroService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
-public class LivroService {
+public class LivroServiceImpl implements ILivroService {
 
     private final LivroMapper livroMapper;
 
     private final LivroRepository livroRepository;
 
-    private final EditoraService editoraService;
+    private final EditoraServiceImpl editoraService;
 
     private final AluguelRepository aluguelRepository;
 
     @Autowired
-    public LivroService(LivroMapper livroMapper, LivroRepository livroRepository, EditoraService editoraService, AluguelRepository aluguelRepository) {
+    public LivroServiceImpl(LivroMapper livroMapper, LivroRepository livroRepository, EditoraServiceImpl editoraService, AluguelRepository aluguelRepository) {
         this.livroMapper = livroMapper;
         this.livroRepository = livroRepository;
         this.editoraService = editoraService;
@@ -53,7 +54,7 @@ public class LivroService {
 
         Livro livroToUpdate = livroMapper.toModel(livroRequestDTO);
         livroToUpdate.setEditora(foundEditora);
-        Livro livroUpdated = livroRepository.save(verifyAndGetIfExists(livroToUpdate.getId()));
+        Livro livroUpdated = livroRepository.save(livroToUpdate);
 
         return livroMapper.toDTO(livroUpdated);
     }
