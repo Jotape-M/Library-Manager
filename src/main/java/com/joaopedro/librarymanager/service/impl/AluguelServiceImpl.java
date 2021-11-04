@@ -4,6 +4,7 @@ import com.joaopedro.librarymanager.dto.request.AluguelRequestDTO;
 import com.joaopedro.librarymanager.dto.response.AluguelResponseDTO;
 import com.joaopedro.librarymanager.exception.aluguel.AluguelDataNotValidException;
 import com.joaopedro.librarymanager.exception.aluguel.AluguelNotFoundException;
+import com.joaopedro.librarymanager.exception.livro.LivroInsufficientQuantity;
 import com.joaopedro.librarymanager.mapper.AluguelMapper;
 import com.joaopedro.librarymanager.mapper.LivroMapper;
 import com.joaopedro.librarymanager.model.Aluguel;
@@ -15,6 +16,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class AluguelServiceImpl implements IAluguelService {
@@ -43,6 +47,13 @@ public class AluguelServiceImpl implements IAluguelService {
         return aluguelRepository.findAll(pageable).map(aluguelMapper::toDTO);
     }
 
+    public List<AluguelResponseDTO> findAll() {
+        return aluguelRepository.findAll()
+                .stream()
+                .map(aluguelMapper::toDTO)
+                .collect(Collectors.toList());
+    }
+
     public AluguelResponseDTO create(AluguelRequestDTO aluguelRequestDTO) {
         Livro foundLivro = livroService.verifyAndGetIfExists(aluguelRequestDTO.getLivroId());
         Usuario foundUsuario = usuarioService.verifyAndGetIfExists(aluguelRequestDTO.getUsuarioId());
@@ -61,7 +72,7 @@ public class AluguelServiceImpl implements IAluguelService {
 
         if(aluguelToCreate.getDataDevolucao() == null) {
             if(foundLivro.getQuantidade() == 0) {
-                throw new RuntimeException();
+                throw new LivroInsufficientQuantity("Livro with insufficient quantity");
             }
             foundLivro.setQuantidade(foundLivro.getQuantidade() - 1);
             livroService.update(livroMapper.toRequestDTO((foundLivro)));
@@ -82,7 +93,7 @@ public class AluguelServiceImpl implements IAluguelService {
 
         if(aluguelToUpdate.getDataDevolucao() == null) {
             if(foundLivro.getQuantidade() == 0) {
-                throw new RuntimeException();
+                throw new LivroInsufficientQuantity("Livro with insufficient quantity");
             }
             foundLivro.setQuantidade(foundLivro.getQuantidade() - 1);
             livroService.update(livroMapper.toRequestDTO((foundLivro)));

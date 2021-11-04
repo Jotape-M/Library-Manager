@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/alugueis")
@@ -22,11 +23,17 @@ public class AluguelController {
     private AluguelServiceImpl aluguelService;
 
     @GetMapping
-    @ApiOperation(value = "Retorna todos os alugueis")
+    @ApiOperation(value = "Retorna uma lista de alugueis paginada")
     public ResponseEntity<Page<AluguelResponseDTO>> findAll(@RequestParam(defaultValue = "0") int page,
                                                             @RequestParam(defaultValue = "10") int size) {
         Pageable pageable = PageRequest.of(page, size);
         return new ResponseEntity<>(aluguelService.findAll(pageable), HttpStatus.OK);
+    }
+
+    @GetMapping("/all")
+    @ApiOperation(value = "Retorna uma lista de alugueis")
+    public ResponseEntity<List<AluguelResponseDTO>> findAll() {
+        return new ResponseEntity<>(aluguelService.findAll(), HttpStatus.OK);
     }
 
     @PostMapping

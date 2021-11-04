@@ -1,6 +1,7 @@
 package com.joaopedro.librarymanager.exception;
 
 import com.joaopedro.librarymanager.exception.aluguel.AluguelDataNotValidException;
+import com.joaopedro.librarymanager.exception.livro.LivroInsufficientQuantity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -47,6 +48,14 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(AluguelDataNotValidException.class)
     public ResponseEntity<Object> handleAluguelDataNotValid(AluguelDataNotValidException exception) {
+        return buildResponseEntity(
+                HttpStatus.BAD_REQUEST,
+                exception.getMessage(),
+                Collections.singletonList(exception.getMessage()));
+    }
+
+    @ExceptionHandler(LivroInsufficientQuantity.class)
+    public ResponseEntity<Object> handleLivroInsufficientQuantity(LivroInsufficientQuantity exception) {
         return buildResponseEntity(
                 HttpStatus.BAD_REQUEST,
                 exception.getMessage(),
