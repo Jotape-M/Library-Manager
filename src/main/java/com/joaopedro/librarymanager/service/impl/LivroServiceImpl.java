@@ -10,6 +10,7 @@ import com.joaopedro.librarymanager.model.Editora;
 import com.joaopedro.librarymanager.model.Livro;
 import com.joaopedro.librarymanager.repository.AluguelRepository;
 import com.joaopedro.librarymanager.repository.LivroRepository;
+import com.joaopedro.librarymanager.service.IEditoraService;
 import com.joaopedro.librarymanager.service.ILivroService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -26,7 +27,7 @@ public class LivroServiceImpl implements ILivroService {
 
     private final LivroRepository livroRepository;
 
-    private final EditoraServiceImpl editoraService;
+    private final IEditoraService editoraService;
 
     private final AluguelRepository aluguelRepository;
 

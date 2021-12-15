@@ -12,6 +12,8 @@ import com.joaopedro.librarymanager.model.Livro;
 import com.joaopedro.librarymanager.model.Usuario;
 import com.joaopedro.librarymanager.repository.AluguelRepository;
 import com.joaopedro.librarymanager.service.IAluguelService;
+import com.joaopedro.librarymanager.service.ILivroService;
+import com.joaopedro.librarymanager.service.IUsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -27,11 +29,11 @@ public class AluguelServiceImpl implements IAluguelService {
 
     private final AluguelRepository aluguelRepository;
 
-    private final LivroServiceImpl livroService;
+    private final ILivroService livroService;
 
     private final LivroMapper livroMapper;
 
-    private final UsuarioServiceImpl usuarioService;
+    private final IUsuarioService usuarioService;
 
     @Autowired
     public AluguelServiceImpl(AluguelMapper aluguelMapper, AluguelRepository aluguelRepository,

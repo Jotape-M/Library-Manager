@@ -1,6 +1,7 @@
 package com.joaopedro.librarymanager.service;
 
 import com.joaopedro.librarymanager.dto.UsuarioDTO;
+import com.joaopedro.librarymanager.model.Usuario;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -17,4 +18,6 @@ public interface IUsuarioService {
     void delete(Long id);
 
     UsuarioDTO update(UsuarioDTO usuarioDTO);
+
+    Usuario verifyAndGetIfExists(Long usuarioId);
 }
