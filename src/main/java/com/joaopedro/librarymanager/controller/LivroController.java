@@ -2,7 +2,7 @@ package com.joaopedro.librarymanager.controller;
 
 import com.joaopedro.librarymanager.dto.request.LivroRequestDTO;
 import com.joaopedro.librarymanager.dto.response.LivroResponseDTO;
-import com.joaopedro.librarymanager.service.impl.LivroServiceImpl;
+import com.joaopedro.librarymanager.service.ILivroService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -19,8 +19,12 @@ import java.util.List;
 @RequestMapping("/api/livros")
 public class LivroController {
 
+    private final ILivroService livroService;
+
     @Autowired
-    private LivroServiceImpl livroService;
+    public LivroController(ILivroService livroService) {
+        this.livroService = livroService;
+    }
 
     @GetMapping
     @ApiOperation(value = "Retorna uma lista paginada de livros")

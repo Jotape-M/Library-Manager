@@ -2,7 +2,7 @@ package com.joaopedro.librarymanager.controller;
 
 import com.joaopedro.librarymanager.dto.request.AluguelRequestDTO;
 import com.joaopedro.librarymanager.dto.response.AluguelResponseDTO;
-import com.joaopedro.librarymanager.service.impl.AluguelServiceImpl;
+import com.joaopedro.librarymanager.service.IAluguelService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -19,8 +19,12 @@ import java.util.List;
 @RequestMapping("/api/alugueis")
 public class AluguelController {
 
+    private final IAluguelService aluguelService;
+
     @Autowired
-    private AluguelServiceImpl aluguelService;
+    public AluguelController(IAluguelService aluguelService) {
+        this.aluguelService = aluguelService;
+    }
 
     @GetMapping
     @ApiOperation(value = "Retorna uma lista de alugueis paginada")

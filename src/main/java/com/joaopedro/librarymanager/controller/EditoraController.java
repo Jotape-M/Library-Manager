@@ -1,7 +1,7 @@
 package com.joaopedro.librarymanager.controller;
 
 import com.joaopedro.librarymanager.dto.EditoraDTO;
-import com.joaopedro.librarymanager.service.impl.EditoraServiceImpl;
+import com.joaopedro.librarymanager.service.IEditoraService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -18,8 +18,12 @@ import java.util.List;
 @RequestMapping(value = "/api/editoras")
 public class EditoraController {
 
+    private final IEditoraService editoraService;
+
     @Autowired
-    private EditoraServiceImpl editoraService;
+    public EditoraController(IEditoraService editoraService) {
+        this.editoraService = editoraService;
+    }
 
     @GetMapping
     @ApiOperation(value = "Retorna uma lista paginada de editoras")
