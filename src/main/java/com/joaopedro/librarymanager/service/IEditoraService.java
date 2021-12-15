@@ -1,6 +1,7 @@
 package com.joaopedro.librarymanager.service;
 
 import com.joaopedro.librarymanager.dto.EditoraDTO;
+import com.joaopedro.librarymanager.model.Editora;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -17,4 +18,6 @@ public interface IEditoraService {
     void deleteById(Long id);
 
     EditoraDTO update(EditoraDTO editoraDTO);
+
+    Editora verifyAndGetIfExists(Long editoraId);
 }
