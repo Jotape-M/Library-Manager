@@ -1,7 +1,7 @@
 package com.joaopedro.librarymanager.controller;
 
 import com.joaopedro.librarymanager.dto.UsuarioDTO;
-import com.joaopedro.librarymanager.service.impl.UsuarioServiceImpl;
+import com.joaopedro.librarymanager.service.IUsuarioService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -18,8 +18,12 @@ import java.util.List;
 @RequestMapping("/api/usuarios")
 public class UsuarioController {
 
+    private final IUsuarioService usuarioService;
+
     @Autowired
-    private UsuarioServiceImpl usuarioService;
+    public UsuarioController(IUsuarioService usuarioService) {
+        this.usuarioService = usuarioService;
+    }
 
     @GetMapping
     @ApiOperation(value = "Rertorna uma lista paginada de usuarios")
